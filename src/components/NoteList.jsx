@@ -1,4 +1,7 @@
-const NoteList = ({ notes, onDelete, onComplate, sortBy }) => {
+import { useNotes, useNotesDisPatch } from "../context/noteContext";
+
+const NoteList = ({ sortBy }) => {
+  const notes = useNotes();
   let sortNotes = notes;
   if (sortBy == "latest")
     sortNotes = [...notes].sort(
@@ -15,14 +18,7 @@ const NoteList = ({ notes, onDelete, onComplate, sortBy }) => {
   return (
     <div className="note-list">
       {sortNotes.map((note) => {
-        return (
-          <NoteItem
-            key={note.id}
-            note={note}
-            onDelete={onDelete}
-            onComplate={onComplate}
-          />
-        );
+        return <NoteItem key={note.id} note={note} />;
       })}
     </div>
   );
@@ -30,7 +26,8 @@ const NoteList = ({ notes, onDelete, onComplate, sortBy }) => {
 
 export default NoteList;
 
-const NoteItem = ({ note, onDelete, onComplate }) => {
+const NoteItem = ({ note }) => {
+  const dispatch = useNotesDisPatch()
   const option = {
     year: "numeric",
     month: "long",
@@ -45,7 +42,7 @@ const NoteItem = ({ note, onDelete, onComplate }) => {
         </div>
         <div className="actions">
           <button
-            onClick={() => onDelete(note.id)}
+            onClick={() => dispatch({ type: "delete", payload: id })}
             style={{ color: "red", fontSize: "35px" }}
           >
             &times;
@@ -56,7 +53,10 @@ const NoteItem = ({ note, onDelete, onComplate }) => {
             id={note.id}
             value={note.id}
             checked={note.complate}
-            onChange={onComplate}
+            onChange={(e) => {
+              const noteIdInput = Number(e.target.value);
+              dispatch({ type: "complete", payload: noteIdInput });
+            }}
           />
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNotesDisPatch } from "../context/noteContext";
 
-const AddNewNote = ({onAddNotes}) => {
+const AddNewNote = () => {
+  const dispatch = useNotesDisPatch()
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const submitHandler = (e) => {
@@ -14,7 +16,7 @@ const AddNewNote = ({onAddNotes}) => {
         createAt: new Date().toISOString(),
     }
 
-    onAddNotes(newNotes)
+    dispatch({ type: "add", payload: newNotes });
 
     setTitle("")
     setDescription("")

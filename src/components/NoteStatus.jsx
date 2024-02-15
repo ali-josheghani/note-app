@@ -1,7 +1,8 @@
+import { useNotes } from "../context/noteContext"
 import Message from "./Message"
 
-const NoteStatus = ({notes}) => {
-
+const NoteStatus = () => {
+    const notes = useNotes()
     const allNotes = notes.length
     const completedNotes = notes.filter(n => n.complated).length
     const openNotes = allNotes - completedNotes
