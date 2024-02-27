@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:"/02-note-app/",
   plugins: [react()],
+  base:"/02-note-app/",
 })
